@@ -9,8 +9,8 @@ let selectedUser = null;
    CONFIG
 ===================================== */
 
-const GAS_URL =
-'https://script.google.com/macros/s/AKfycbwZiv7WCHXKe_Rk8Hwy28IeOyrBRGT6Qg46LvRkFXuxNG9bpodru_gKxtor8UYyQkpS/exec';
+/*const GAS_URL =
+'https://script.google.com/macros/s/AKfycbwZiv7WCHXKe_Rk8Hwy28IeOyrBRGT6Qg46LvRkFXuxNG9bpodru_gKxtor8UYyQkpS/exec';*?
 
 /* =====================================
    LOAD USERS
