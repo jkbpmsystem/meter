@@ -115,7 +115,7 @@ window.App = {
 ===================================== */
 
 const GAS_URL =
-'https://YOUR_WEB_APP_URL';
+'https://script.google.com/macros/s/AKfycbwZiv7WCHXKe_Rk8Hwy28IeOyrBRGT6Qg46LvRkFXuxNG9bpodru_gKxtor8UYyQkpS/exec';
 
 /* =====================================
    SESSION CHECK
