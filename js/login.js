@@ -1,5 +1,5 @@
 const GAS_URL =
-'https://script.google.com/macros/s/AKfycbyfwGsikPRj8fAqy55NlhC7GOQ_fFRYveQZRfSAeOG2S59JHPlM-ujkADOu3yjeW4v2/exec';
+'https://script.google.com/macros/s/AKfycbwW0zoSC6mgNyMAt_PKKDMUF5HT0UHrPB33J47WxTBRhhYAJoY_OycwqqtOiva5ZdtS/exec';
 
 document
 .getElementById(
