@@ -175,13 +175,7 @@ async function updateSetting(
         await fetch(
             GAS_URL,
             {
-
                 method:'POST',
-
-                headers:{
-                    'Content-Type':
-                    'application/json'
-                },
 
                 body:
                 JSON.stringify({
