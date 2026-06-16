@@ -32,34 +32,17 @@ async function login(e){
 
     try{
 
-        const response =
-            await fetch(
-                GAS_URL,
-                {
-
-                    method:'POST',
-
-                    headers:{
-                        'Content-Type':
-                        'application/json'
-                    },
-
-                    body:
-                    JSON.stringify({
-
-                        action:
-                        'login',
-
-                        username:
-                        username,
-
-                        password:
-                        password
-
-                    })
-
-                }
-            );
+        const response = await fetch(GAS_URL,{
+    method:'POST',
+    headers:{
+        'Content-Type':'application/json'
+    },
+    body:JSON.stringify({
+        action:'login',
+        username,
+        password
+    })
+});
 
         const result =
             await response.json();
