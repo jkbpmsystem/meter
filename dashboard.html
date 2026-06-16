@@ -1,0 +1,1863 @@
+<!DOCTYPE html>
+<html lang="ms">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>
+HSZA Utility Billing System
+</title>
+
+<link
+rel="stylesheet"
+href="css/dashboard.css">
+
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+<div class="wrapper">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <img
+            src="assets/logo_hosza_unisza.png"
+            alt="HoSZA">
+
+            <h2>
+
+                Utility Billing
+
+            </h2>
+
+        </div>
+
+        <ul class="menu">
+
+            <li
+            class="active"
+            onclick="showSection('dashboard')">
+
+                <i class="fa fa-home"></i>
+
+                <span>
+
+                    Dashboard
+
+                </span>
+
+            </li>
+
+            <li
+            onclick="showSection('billing')">
+
+                <i class="fa fa-file-invoice"></i>
+
+                <span>
+
+                    Bil Baharu
+
+                </span>
+
+            </li>
+
+            <li
+            onclick="showSection('records')">
+
+                <i class="fa fa-folder-open"></i>
+
+                <span>
+
+                    Rekod Bil
+
+                </span>
+
+            </li>
+
+            <li
+            id="usersMenu"
+            onclick="showSection('users')">
+
+                <i class="fa fa-users"></i>
+
+                <span>
+
+                    Pengguna
+
+                </span>
+
+            </li>
+
+            <li
+            id="settingsMenu"
+            onclick="showSection('settings')">
+
+                <i class="fa fa-gear"></i>
+
+                <span>
+
+                    Tetapan
+
+                </span>
+
+            </li>
+
+            <li
+            onclick="logout()">
+
+                <i class="fa fa-right-from-bracket"></i>
+
+                <span>
+
+                    Logout
+
+                </span>
+
+            </li>
+
+        </ul>
+
+    </aside>
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+        <!-- HEADER -->
+
+        <div class="header">
+
+            <div>
+
+                <h1>
+
+                    Dashboard
+
+                </h1>
+
+                <small>
+
+                    Hospital Sultan Zainal Abidin
+
+                </small>
+
+            </div>
+
+            <div class="user-info">
+
+                <i class="fa fa-user-circle"></i>
+
+                <span id="loggedUser">
+
+                    Loading...
+
+                </span>
+
+            </div>
+
+        </div>
+
+        <!-- DASHBOARD -->
+
+        <div id="dashboardSection">
+
+            <!-- SUMMARY -->
+
+            <div class="cards">
+
+                <div class="card">
+
+                    <h3>
+
+                        Bil Bulan Ini
+
+                    </h3>
+
+                    <div
+                    class="value"
+                    id="billCount">
+
+                        0
+
+                    </div>
+
+                </div>
+
+                <div class="card">
+
+                    <h3>
+
+                        Jumlah Kutipan
+
+                    </h3>
+
+                    <div
+                    class="value"
+                    id="collection">
+
+                        RM 0.00
+
+                    </div>
+
+                </div>
+
+                <div class="card">
+
+                    <h3>
+
+                        Penyewa Aktif
+
+                    </h3>
+
+                    <div
+                    class="value"
+                    id="tenantCount">
+
+                        0
+
+                    </div>
+
+                </div>
+
+                <div class="card">
+
+                    <h3>
+
+                        Bil Terakhir
+
+                    </h3>
+
+                    <div
+                    class="value"
+                    id="lastBill">
+
+                        -
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- CHART -->
+
+            <div class="content">
+
+                <h2>
+
+                    Analisis Kutipan Bulanan
+
+                </h2>
+
+                <br>
+
+                <canvas
+                id="collectionChart">
+
+                </canvas>
+
+            </div>
+
+            <br>
+
+            <!-- RECENT BILL -->
+
+            <div class="content">
+
+                <div class="page-header">
+
+                    <h2>
+
+                        Rekod Bil Terkini
+
+                    </h2>
+
+                    <button
+                    class="btn-primary"
+                    onclick="showSection('records')">
+
+                        Lihat Semua
+
+                    </button>
+
+                </div>
+
+                <br>
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>No Bil</th>
+                            <th>Penyewa</th>
+                            <th>Tarikh</th>
+                            <th>Jumlah</th>
+                            <th>Status</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody
+                    id="recentBillsTable">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <br>
+
+            <!-- QUICK ACTION -->
+
+            <div class="content">
+
+                <h2>
+
+                    Quick Action
+
+                </h2>
+
+                <br>
+
+                <div class="button-group">
+
+                    <button
+                    class="btn-success"
+                    onclick="showSection('billing')">
+
+                        Bil Baharu
+
+                    </button>
+
+                    <button
+                    class="btn-primary"
+                    onclick="showSection('records')">
+
+                        Rekod Bil
+
+                    </button>
+
+                    <button
+                    class="btn-secondary"
+                    onclick="refreshDashboard()">
+
+                        Refresh
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- BILLING SECTION -->
+
+        <div
+        id="billingSection"
+        class="hidden">
+
+        <div class="content">
+
+    <div class="page-header">
+
+        <h2>
+
+            Bil Utiliti Baharu
+
+        </h2>
+
+        <button
+        class="btn-secondary"
+        onclick="generateBillNo()">
+
+            Jana Semula No Bil
+
+        </button>
+
+    </div>
+
+    <br>
+
+    <div class="form-grid">
+
+        <!-- BILL INFO -->
+
+        <div class="form-group">
+
+            <label>
+
+                No Bil
+
+            </label>
+
+            <input
+            type="text"
+            id="billNo"
+            readonly>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+
+                Tarikh Bil
+
+            </label>
+
+            <input
+            type="date"
+            id="billDate">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+
+                Bulan Bil
+
+            </label>
+
+            <input
+            type="month"
+            id="billMonth">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+
+                Penyewa
+
+            </label>
+
+            <select
+            id="tenant">
+
+                <option value="">
+
+                    Pilih Penyewa
+
+                </option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+</div>
+
+<br>
+
+<!-- WATER METER -->
+
+<div class="content">
+
+    <h2>
+
+        Meter Air
+
+    </h2>
+
+    <br>
+
+    <div class="form-grid">
+
+        <div class="form-group">
+
+            <label>
+
+                Bacaan Sebelum
+
+            </label>
+
+            <input
+            type="number"
+            id="waterBefore"
+            readonly>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+
+                Bacaan Semasa
+
+            </label>
+
+            <input
+            type="number"
+            id="waterAfter">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+
+                Gambar Meter Air
+
+            </label>
+
+            <input
+            type="file"
+            id="waterImage"
+            accept="image/*">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+
+                OCR Air
+
+            </label>
+
+            <button
+            class="btn-primary"
+            type="button"
+            onclick="readWaterMeter()">
+
+                Baca Meter Air
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <br>
+
+    <div
+    id="waterOCRStatus"
+    class="ocr-status">
+
+        Tiada bacaan OCR.
+
+    </div>
+
+</div>
+
+<br>
+
+<!-- ELECTRIC METER -->
+
+<div class="content">
+
+    <h2>
+
+        Meter Elektrik
+
+    </h2>
+
+    <br>
+
+    <div class="form-grid">
+
+        <div class="form-group">
+
+            <label>
+
+                Bacaan Sebelum
+
+            </label>
+
+            <input
+            type="number"
+            id="electricBefore"
+            readonly>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+
+                Bacaan Semasa
+
+            </label>
+
+            <input
+            type="number"
+            id="electricAfter">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+
+                Gambar Meter Elektrik
+
+            </label>
+
+            <input
+            type="file"
+            id="electricImage"
+            accept="image/*">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+
+                OCR Elektrik
+
+            </label>
+
+            <button
+            class="btn-primary"
+            type="button"
+            onclick="readElectricMeter()">
+
+                Baca Meter Elektrik
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <br>
+
+    <div
+    id="electricOCRStatus"
+    class="ocr-status">
+
+        Tiada bacaan OCR.
+
+    </div>
+
+</div>
+
+<br>
+
+<!-- ACTION -->
+
+<div class="content">
+
+    <h2>
+
+        Tindakan
+
+    </h2>
+
+    <br>
+
+    <div class="button-group">
+
+        <button
+        id="calculateBtn"
+        class="btn-primary">
+
+            Kira Bil
+
+        </button>
+
+        <button
+        class="btn-success"
+        onclick="generatePDF()">
+
+            Generate PDF
+
+        </button>
+
+        <button
+        class="btn-warning"
+        onclick="submitBill()">
+
+            Simpan Bil
+
+        </button>
+
+    </div>
+
+    <br>
+
+    <label>
+
+        <input
+        type="checkbox"
+        id="verifyReading">
+
+        Saya mengesahkan bacaan meter
+        adalah betul.
+
+    </label>
+
+</div>
+
+<br>
+
+<!-- PREVIEW -->
+
+<div
+id="billPreview"
+class="content">
+
+    <h2>
+
+        Preview Bil
+
+    </h2>
+
+    <br>
+
+    <div
+    id="previewInfo">
+
+    </div>
+
+    <table>
+
+        <tr>
+
+            <th>
+                Item
+            </th>
+
+            <th>
+                Nilai
+            </th>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                Penggunaan Air
+            </td>
+
+            <td
+            id="previewWaterUsage">
+
+                0
+
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                Penggunaan Elektrik
+            </td>
+
+            <td
+            id="previewElectricUsage">
+
+                0
+
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                Caj Air
+            </td>
+
+            <td
+            id="previewWaterAmount">
+
+                RM 0.00
+
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                Caj Elektrik
+            </td>
+
+            <td
+            id="previewElectricAmount">
+
+                RM 0.00
+
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                Jumlah
+            </td>
+
+            <td
+            id="previewTotal">
+
+                RM 0.00
+
+            </td>
+
+        </tr>
+
+    </table>
+
+</div>
+
+</div>
+
+<!-- RECORDS SECTION -->
+
+<div
+id="recordsSection"
+class="hidden">
+
+<div class="content">
+
+    <div class="page-header">
+
+        <h2>
+
+            Rekod Bil Utiliti
+
+        </h2>
+
+        <div>
+
+            <button
+            class="btn-primary"
+            onclick="loadBills()">
+
+                Refresh
+
+            </button>
+
+            <button
+            class="btn-success"
+            onclick="exportCSV()">
+
+                Export CSV
+
+            </button>
+
+            <button
+            class="btn-secondary"
+            onclick="exportExcel()">
+
+                Export Excel
+
+            </button>
+
+            <button
+            class="btn-warning"
+            onclick="printBillList()">
+
+                Print
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <br>
+
+    <!-- FILTER -->
+
+    <div class="filter-grid">
+
+        <div class="form-group">
+
+            <label>
+
+                No Bil
+
+            </label>
+
+            <input
+            type="text"
+            id="searchBill">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+
+                Penyewa
+
+            </label>
+
+            <input
+            type="text"
+            id="searchTenant">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+
+                Bulan
+
+            </label>
+
+            <input
+            type="month"
+            id="searchMonth">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+
+                Status
+
+            </label>
+
+            <select
+            id="searchStatus">
+
+                <option value="">
+
+                    Semua
+
+                </option>
+
+                <option value="AKTIF">
+
+                    AKTIF
+
+                </option>
+
+                <option value="DIKEMASKINI">
+
+                    DIKEMASKINI
+
+                </option>
+
+                <option value="DIBATALKAN">
+
+                    DIBATALKAN
+
+                </option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+    <br>
+
+    <div class="button-group">
+
+        <button
+        class="btn-primary"
+        onclick="filterBills()">
+
+            Cari
+
+        </button>
+
+        <button
+        class="btn-secondary"
+        onclick="resetBillFilter()">
+
+            Reset
+
+        </button>
+
+    </div>
+
+</div>
+
+<br>
+
+<!-- SUMMARY -->
+
+<div class="cards">
+
+    <div class="card">
+
+        <h3>
+
+            Jumlah Bil
+
+        </h3>
+
+        <div
+        class="value"
+        id="totalBillCount">
+
+            0
+
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <h3>
+
+            Aktif
+
+        </h3>
+
+        <div
+        class="value"
+        id="activeBillCount">
+
+            0
+
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <h3>
+
+            Dikemaskini
+
+        </h3>
+
+        <div
+        class="value"
+        id="updatedBillCount">
+
+            0
+
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <h3>
+
+            Dibatalkan
+
+        </h3>
+
+        <div
+        class="value"
+        id="cancelBillCount">
+
+            0
+
+        </div>
+
+    </div>
+
+</div>
+
+<br>
+
+<!-- RECORD TABLE -->
+
+<div class="content">
+
+    <table id="recordsTable">
+
+        <thead>
+
+            <tr>
+
+                <th>No Bil</th>
+
+                <th>Penyewa</th>
+
+                <th>Tarikh</th>
+
+                <th>Jumlah</th>
+
+                <th>Status</th>
+
+                <th>Tindakan</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+</div>
+
+<!-- PDF MODAL -->
+
+<div
+id="pdfModal"
+class="modal hidden">
+
+    <div
+    class="modal-content pdf-modal">
+
+        <div class="modal-header">
+
+            <h3>
+
+                PDF Viewer
+
+            </h3>
+
+            <button
+            class="close-btn"
+            onclick="closePdfModal()">
+
+                &times;
+
+            </button>
+
+        </div>
+
+        <iframe
+        id="pdfViewer"
+        width="100%"
+        height="700">
+
+        </iframe>
+
+    </div>
+
+</div>
+
+<!-- USERS SECTION -->
+
+<div
+id="usersSection"
+class="hidden">
+
+<div class="content">
+
+    <div class="page-header">
+
+        <h2>
+
+            Pengurusan Pengguna
+
+        </h2>
+
+        <button
+        class="btn-success"
+        onclick="openUserModal()">
+
+            <i class="fa fa-plus"></i>
+
+            Tambah Pengguna
+
+        </button>
+
+    </div>
+
+    <br>
+
+    <div class="filter-grid">
+
+        <div class="form-group">
+
+            <label>
+
+                Cari Pengguna
+
+            </label>
+
+            <input
+            type="text"
+            id="userSearch"
+            placeholder="Username / Nama">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+
+                &nbsp;
+
+            </label>
+
+            <button
+            class="btn-primary"
+            onclick="searchUsers()">
+
+                Cari
+
+            </button>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+
+                &nbsp;
+
+            </label>
+
+            <button
+            class="btn-secondary"
+            onclick="loadUsers()">
+
+                Refresh
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<br>
+
+<!-- USER SUMMARY -->
+
+<div class="cards">
+
+    <div class="card">
+
+        <h3>
+
+            Jumlah Pengguna
+
+        </h3>
+
+        <div
+        class="value"
+        id="totalUserCount">
+
+            0
+
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <h3>
+
+            Admin
+
+        </h3>
+
+        <div
+        class="value"
+        id="adminCount">
+
+            0
+
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <h3>
+
+            User
+
+        </h3>
+
+        <div
+        class="value"
+        id="normalUserCount">
+
+            0
+
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <h3>
+
+            Aktif
+
+        </h3>
+
+        <div
+        class="value"
+        id="activeUserCount">
+
+            0
+
+        </div>
+
+    </div>
+
+</div>
+
+<br>
+
+<!-- USER TABLE -->
+
+<div class="content">
+
+    <table id="usersTable">
+
+        <thead>
+
+            <tr>
+
+                <th>Username</th>
+                <th>Nama</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Tindakan</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+</div>
+
+<!-- USER MODAL -->
+
+<div
+id="userModal"
+class="modal hidden">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <h3
+            id="userModalTitle">
+
+                Tambah Pengguna
+
+            </h3>
+
+            <button
+            class="close-btn"
+            onclick="closeUserModal()">
+
+                &times;
+
+            </button>
+
+        </div>
+
+        <div class="modal-body">
+
+            <input
+            type="hidden"
+            id="editUsername">
+
+            <div class="form-group">
+
+                <label>
+
+                    Username
+
+                </label>
+
+                <input
+                type="text"
+                id="usernameInput">
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+
+                    Nama Penuh
+
+                </label>
+
+                <input
+                type="text"
+                id="nameInput">
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+
+                    Password
+
+                </label>
+
+                <input
+                type="password"
+                id="passwordInput">
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+
+                    Role
+
+                </label>
+
+                <select
+                id="roleInput">
+
+                    <option value="ADMIN">
+
+                        ADMIN
+
+                    </option>
+
+                    <option value="USER">
+
+                        USER
+
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+
+            <button
+            class="btn-secondary"
+            onclick="closeUserModal()">
+
+                Tutup
+
+            </button>
+
+            <button
+            class="btn-success"
+            onclick="saveUser()">
+
+                Simpan
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- USER ACTION MODAL -->
+
+<div
+id="userActionModal"
+class="modal hidden">
+
+    <div
+    class="modal-content small">
+
+        <div class="modal-header">
+
+            <h3>
+
+                Tindakan Pengguna
+
+            </h3>
+
+            <button
+            class="close-btn"
+            onclick="closeActionModal()">
+
+                &times;
+
+            </button>
+
+        </div>
+
+        <div class="modal-body">
+
+            <button
+            class="btn-primary full"
+            onclick="resetSelectedPassword()">
+
+                🔒 Reset Password
+
+            </button>
+
+            <br><br>
+
+            <button
+            class="btn-warning full"
+            onclick="toggleUserStatus()">
+
+                ⛔ Aktif / Nyahaktif
+
+            </button>
+
+            <br><br>
+
+            <button
+            class="btn-danger full"
+            onclick="deleteSelectedUser()">
+
+                🗑 Padam Pengguna
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- SETTINGS SECTION -->
+
+<div
+id="settingsSection"
+class="hidden">
+
+<div class="content">
+
+    <div class="page-header">
+
+        <h2>
+
+            Tetapan Sistem
+
+        </h2>
+
+        <div>
+
+            <button
+            class="btn-primary"
+            onclick="loadSettings()">
+
+                Refresh
+
+            </button>
+
+            <button
+            class="btn-success"
+            onclick="saveSettings()">
+
+                Simpan
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <br>
+
+    <table class="settings-table">
+
+        <thead>
+
+            <tr>
+
+                <th>Tetapan</th>
+                <th>Nilai</th>
+                <th>Unit</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <tr>
+
+                <td>
+                    Kadar Air (0-35 m³)
+                </td>
+
+                <td>
+
+                    <input
+                    type="number"
+                    step="0.01"
+                    id="waterLowRate">
+
+                </td>
+
+                <td>
+                    RM/m³
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    Kadar Air (>35 m³)
+                </td>
+
+                <td>
+
+                    <input
+                    type="number"
+                    step="0.01"
+                    id="waterHighRate">
+
+                </td>
+
+                <td>
+                    RM/m³
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    Kadar Elektrik
+                </td>
+
+                <td>
+
+                    <input
+                    type="number"
+                    step="0.01"
+                    id="electricRate">
+
+                </td>
+
+                <td>
+                    RM/kWh
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    Caj Perkhidmatan
+                </td>
+
+                <td>
+
+                    <input
+                    type="number"
+                    step="0.01"
+                    id="serviceCharge">
+
+                </td>
+
+                <td>
+                    RM
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<br>
+
+<div class="content">
+
+    <h3>
+
+        Preview Kadar Semasa
+
+    </h3>
+
+    <br>
+
+    <table>
+
+        <tr>
+
+            <th>Jenis</th>
+
+            <th>Kadar</th>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                Air 0-35 m³
+            </td>
+
+            <td
+            id="previewWaterLow">
+
+                RM 1.70
+
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                Air >35 m³
+            </td>
+
+            <td
+            id="previewWaterHigh">
+
+                RM 2.10
+
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                Elektrik
+            </td>
+
+            <td
+            id="previewElectric">
+
+                RM 0.60
+
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                Caj Meter
+            </td>
+
+            <td
+            id="previewService">
+
+                RM 5.00
+
+            </td>
+
+        </tr>
+
+    </table>
+
+</div>
+
+</div>
+
+<!-- LOADING OVERLAY -->
+
+<div
+id="loadingOverlay"
+class="hidden"
+style="
+position:fixed;
+top:0;
+left:0;
+right:0;
+bottom:0;
+background:rgba(255,255,255,.85);
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:99999;
+">
+
+    <div
+    style="
+    text-align:center;
+    ">
+
+        <i
+        class="fa fa-spinner fa-spin"
+        style="
+        font-size:40px;
+        color:#003366;
+        ">
+
+        </i>
+
+        <br><br>
+
+        Memproses...
+
+    </div>
+
+</div>
+
+<!-- OCR -->
+
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+
+<!-- PDF -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<!-- APPLICATION JS -->
+
+<script src="js/dashboard.js"></script>
+
+<script src="js/billing.js"></script>
+
+<script src="js/records.js"></script>
+
+<script src="js/users.js"></script>
+
+<script src="js/settings.js"></script>
+
+<script>
+
+document.addEventListener(
+'DOMContentLoaded',
+function(){
+
+    if(
+        typeof loadDashboard
+        === 'function'
+    ){
+
+        loadDashboard();
+
+    }
+
+});
+
+</script>
+
+</main>
+
+</div>
+
+</body>
+</html>
